@@ -20,12 +20,8 @@ export default {
 
 <style>
 body {
-  margin-top: 50px;
   background-color: #f8f9fa;
   font-family: 'Segoe UI', sans-serif;
 }
 
-main {
-  margin-top: 50px;
-}
 </style>

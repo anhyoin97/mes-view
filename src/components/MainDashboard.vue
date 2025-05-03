@@ -1,13 +1,9 @@
 <template>
   <div class="dashboard-container">
-    <h1 class="dashboard-title">실시간 모니터링 대시보드</h1>
-
-    <div class="chart-grid">
-      <EquipmentStatusChart />
-      <WorkOrderCountByProductChart />
-      <ProductionTrendChart />
-      <DefectRateChart />
-    </div>
+    <EquipmentStatusChart />
+    <WorkOrderCountByProductChart />
+    <ProductionTrendChart />
+    <DefectRateChart />
   </div>
 </template>
 
@@ -20,8 +16,12 @@ import DefectRateChart from './DefectRateChart.vue'
 
 <style scoped>
 .dashboard-container {
-  padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2rem 1rem;
 }
 
 .dashboard-title {

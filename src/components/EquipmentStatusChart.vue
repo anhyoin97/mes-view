@@ -2,8 +2,10 @@
 <template>
     <div class="chart-card">
         <h2 class="chart-title">설비 상태 비율</h2>
-        <Doughnut v-if="loaded" :data="chartData" :options="chartOptions" />
-        <p v-else>로딩 중...</p>
+        <div class="doughnut-wrapper">
+            <Doughnut v-if="loaded" :data="chartData" :options="chartOptions" />
+            <p v-else>로딩 중...</p>
+        </div>
     </div>
 </template>
 
@@ -70,11 +72,24 @@ onMounted(async () => {
     padding: 16px;
     background-color: #fafafa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chart-title {
     font-weight: bold;
     margin-bottom: 12px;
     text-align: left;
+}
+
+.doughnut-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 300px;
+    max-width: 300px;
+    margin: 0 auto;
 }
 </style>
