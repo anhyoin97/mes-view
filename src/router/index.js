@@ -6,11 +6,11 @@ import ProductPage from '../components/ProductPage.vue'
 import EquipmentForm from '../components/EquipmentForm.vue'
 import WorkOrderList from '../components/WorkOrderList.vue'
 import ProductionResultForm from '../components/ProductionResultForm.vue'
-import Dashboard from '../components/Dashboard.vue'
+import MainDashboard from '../components/MainDashboard.vue'
 
 const routes = [
-    { path: '/', redirect: '/dashboard' },
-    { path: '/dashboard', component: Dashboard },
+    { path: '/', redirect: '/maindashboard' },
+    { path: '/maindashboard', component: MainDashboard },
     { path: '/products', component: ProductPage },
     { path: '/equipments', component: EquipmentForm },
     { path: '/work-orders', component: WorkOrderList },

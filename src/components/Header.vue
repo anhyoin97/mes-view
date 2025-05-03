@@ -2,7 +2,7 @@
     <header class="header">
         <div class="logo">MES System</div>
         <nav class="nav">
-            <router-link to="/dashboard">대시보드</router-link>
+            <router-link to="/maindashboard">대시보드</router-link>
             <router-link to="/products">제품관리</router-link>
             <router-link to="/equipments">설비관리</router-link>
             <router-link to="/work-orders">작업지시</router-link>
