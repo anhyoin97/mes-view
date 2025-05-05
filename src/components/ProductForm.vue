@@ -2,58 +2,76 @@
     <form @submit.prevent="submitForm">
         <div class="form-group">
             <label>제품명</label>
-            <input v-model="product.name" required />
+            <input v-model="form.name" type="text" required />
         </div>
         <div class="form-group">
             <label>제품코드</label>
-            <input v-model="product.code" required />
+            <input v-model="form.code" type="text" required />
         </div>
         <div class="form-group">
             <label>스펙</label>
-            <input v-model="product.spec" />
+            <input v-model="form.spec" type="text" />
         </div>
         <button type="submit">등록</button>
     </form>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
     name: 'ProductForm',
+    emits: ['created'],
     data() {
         return {
-            product: { name: '', code: '', spec: '' }
-        }
+            form: {
+                name: '',
+                code: '',
+                spec: ''
+            }
+        };
     },
     methods: {
-        submitForm() {
-            axios.post('http://localhost:8080/products', this.product)
-                .then(() => {
-                    alert('등록 완료!')
-                    this.product = { name: '', code: '', spec: '' };
-                    this.$emit('product-registered'); 
-                })
-                .catch(err => console.error('등록 실패:', err))
+        async submitForm() {
+            try {
+                await fetch('http://localhost:8080/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(this.form)
+                });
+                alert('제품이 등록되었습니다!');
+                this.$emit('created');
+                this.form = { name: '', code: '', spec: '' };
+            } catch (err) {
+                alert('에러: ' + err.message);
+            }
         }
     }
-}
+};
 </script>
 
 <style scoped>
 .form-group {
-    margin-bottom: 12px;
+    margin-bottom: 1rem;
 }
 
 label {
     display: block;
     margin-bottom: 4px;
-    font-weight: bold;
 }
 
 input {
     width: 100%;
     padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     box-sizing: border-box;
+}
+
+button {
+    padding: 8px 16px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 </style>
