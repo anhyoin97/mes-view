@@ -6,22 +6,23 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { Chart, registerables } from 'chart.js';
+import { onMounted, ref } from 'vue'
+import { Chart, registerables } from 'chart.js'
+import axios from 'axios' 
 
-Chart.register(...registerables);
+Chart.register(...registerables)
 
-const chartCanvas = ref(null);
+const chartCanvas = ref(null)
 
 onMounted(async () => {
     try {
-        const response = await fetch('/api/dashboard/defect-trend');
-        const data = await response.json();
+        const res = await axios.get('/api/dashboard/defect-trend') 
+        const data = res.data 
 
-        console.log("불량률 차트 데이터:", data); // ← 디버깅용
+        console.log("불량률 차트 데이터:", data)
 
-        const labels = data.map(item => item.date);
-        const rates = data.map(item => (item.defectRate).toFixed(2)); // 소수점 → 퍼센트 변환
+        const labels = data.map(item => item.date)
+        const rates = data.map(item => (item.defectRate).toFixed(2))
 
         new Chart(chartCanvas.value, {
             type: 'line',
@@ -41,9 +42,7 @@ onMounted(async () => {
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        display: true,
-                    },
+                    legend: { display: true },
                     tooltip: {
                         callbacks: {
                             label: ctx => `${ctx.parsed.y}%`
@@ -57,26 +56,21 @@ onMounted(async () => {
                         ticks: {
                             callback: value => `${value}%`
                         },
-                        title: {
-                            display: true,
-                            text: '불량률 (%)'
-                        }
+                        title: { display: true, text: '불량률 (%)' }
                     },
                     x: {
-                        title: {
-                            display: true,
-                            text: '날짜'
-                        }
+                        title: { display: true, text: '날짜' }
                     }
                 }
             }
-        });
+        })
     } catch (error) {
-        console.error("불량률 차트 로딩 실패:", error);
+        console.error("불량률 차트 로딩 실패:", error)
     }
-});
+})
 </script>
-<style>
+
+<style scoped>
 .chart-card {
     border: 1px solid #ddd;
     border-radius: 8px;

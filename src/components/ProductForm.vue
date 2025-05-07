@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'ProductForm',
     emits: ['created'],
@@ -32,20 +34,16 @@ export default {
     methods: {
         async submitForm() {
             try {
-                await fetch('http://localhost:8080/products', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(this.form)
-                });
-                alert('제품이 등록되었습니다!');
-                this.$emit('created');
-                this.form = { name: '', code: '', spec: '' };
+                await axios.post('/products', this.form) 
+                alert('제품이 등록되었습니다!')
+                this.$emit('created')
+                this.form = { name: '', code: '', spec: '' }
             } catch (err) {
-                alert('에러: ' + err.message);
+                alert('에러: ' + err.message)
             }
         }
     }
-};
+}
 </script>
 
 <style scoped>

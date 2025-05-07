@@ -24,8 +24,8 @@
                 <tbody>
                     <tr v-for="item in paginatedData" :key="item.id">
                         <td>{{ item.id }}</td>
-                        <td>{{ item.productName }}</td>         
-                        <td>{{ item.equipmentName }}</td>       
+                        <td>{{ item.productName }}</td>
+                        <td>{{ item.equipmentName }}</td>
                         <td>{{ item.producedQty }}</td>
                         <td>{{ item.defectiveQty }}</td>
                         <td>{{ formatDateTime(item.startTime) }}</td>
@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import ProductionResultForm from './ProductionResultForm.vue';
+import axios from 'axios'
+import ProductionResultForm from './ProductionResultForm.vue'
 
 export default {
     name: 'ProductionResultList',
@@ -81,18 +82,30 @@ export default {
     },
     methods: {
         async fetchResults() {
-            const res = await fetch('http://localhost:8080/results');
-            const data = await res.json();
-            this.results = Array.isArray(data) ? data : [];
-            this.filteredResults = Array.isArray(data) ? data : [];
+            try {
+                const res = await axios.get('/results');
+                const data = res.data;
+                this.results = Array.isArray(data) ? data : [];
+                this.filteredResults = [...this.results];
+            } catch (err) {
+                console.error('실적 데이터 로딩 오류:', err);
+            }
         },
         async fetchWorkOrders() {
-            const res = await fetch('http://localhost:8080/work-orders');
-            this.workOrders = await res.json();
+            try {
+                const res = await axios.get('/work-orders');
+                this.workOrders = res.data;
+            } catch (err) {
+                console.error('작업지시 로딩 오류:', err);
+            }
         },
         async fetchEquipments() {
-            const res = await fetch('http://localhost:8080/equipments');
-            this.equipments = await res.json();
+            try {
+                const res = await axios.get('/equipments');
+                this.equipments = res.data;
+            } catch (err) {
+                console.error('설비 목록 로딩 오류:', err);
+            }
         },
         formatDateTime(dateTimeStr) {
             if (!dateTimeStr) return '-';

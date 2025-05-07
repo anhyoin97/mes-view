@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'WorkOrderForm',
     props: {
@@ -56,13 +58,9 @@ export default {
     methods: {
         async submitForm() {
             try {
-                await fetch('http://localhost:8080/work-orders', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        ...this.form,
-                        dueDate: this.form.dueDate + ":00"
-                    })
+                await axios.post('http://localhost:8080/work-orders', {
+                    ...this.form,
+                    dueDate: this.form.dueDate + ":00"
                 });
                 alert('작업지시가 등록되었습니다!');
                 this.$emit('created');

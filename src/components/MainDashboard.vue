@@ -12,6 +12,7 @@ import EquipmentStatusChart from './EquipmentStatusChart.vue'
 import WorkOrderCountByProductChart from './WorkOrderCountByProductChart.vue'
 import ProductionTrendChart from './ProductionTrendChart.vue'
 import DefectRateChart from './DefectRateChart.vue'
+
 </script>
 
 <style scoped>

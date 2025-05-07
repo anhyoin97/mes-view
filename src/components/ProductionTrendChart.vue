@@ -16,10 +16,14 @@ const chartCanvas = ref(null);
 
 onMounted(async () => {
     try {
-        const response = await fetch('/api/dashboard/production-trend');
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/dashboard/production-trend', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         const data = await response.json();
 
-        // 응답 데이터 예시: [{ date: "2025-04-27", quantity: 180 }, ...]
         const labels = data.map(item => item.date);
         const quantities = data.map(item => item.quantity);
 

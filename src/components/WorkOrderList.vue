@@ -40,15 +40,11 @@ export default {
     },
     data() {
         return {
-            workOrders: [],       // 전체 데이터
-            filteredOrders: [],   // 필터링된 데이터
+            workOrders: [],
+            filteredOrders: [],
             products: [],
-
-            // 페이징
             currentPage: 0,
             pageSize: 15,
-
-            // 검색조건
             searchProduct: '',
             searchDate: ''
         };
@@ -59,20 +55,29 @@ export default {
         },
         pagedOrders() {
             const start = this.currentPage * this.pageSize;
-            const end = start + this.pageSize;
-            return this.filteredOrders.slice(start, end);
+            return this.filteredOrders.slice(start, start + this.pageSize);
         }
     },
     methods: {
         async fetchWorkOrders() {
-            const res = await axios.get('http://localhost:8080/work-orders');
-            this.workOrders = res.data;
-            this.filteredOrders = res.data;
-            this.currentPage = 0;
+            try {
+                const res = await axios.get('/work-orders');
+                this.workOrders = res.data;
+                this.filteredOrders = res.data;
+                this.currentPage = 0;
+            } catch (err) {
+                console.error('작업지시 불러오기 실패:', err);
+                alert('작업지시 목록을 불러오지 못했습니다.');
+            }
         },
         async fetchProducts() {
-            const res = await axios.get('http://localhost:8080/products');
-            this.products = res.data;
+            try {
+                const res = await axios.get('/products');
+                this.products = res.data;
+            } catch (err) {
+                console.error('제품 목록 불러오기 실패:', err);
+                alert('제품 목록을 불러오지 못했습니다.');
+            }
         },
         changePage(page) {
             this.currentPage = page;
@@ -154,7 +159,7 @@ h2 {
     display: flex;
     gap: 8px;
     margin-bottom: 12px;
-    justify-content: flex-end; 
+    justify-content: flex-end;
 }
 
 .search-bar input {

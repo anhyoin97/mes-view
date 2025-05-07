@@ -22,8 +22,9 @@
 </template>
 
 <script>
-import EquipmentTable from './EquipmentTable.vue';
-import EquipmentForm from './EquipmentForm.vue';
+import EquipmentTable from './EquipmentTable.vue'
+import EquipmentForm from './EquipmentForm.vue'
+import axios from 'axios'
 
 export default {
     name: 'EquipmentList',
@@ -48,11 +49,14 @@ export default {
     },
     methods: {
         async fetchEquipments() {
-            const res = await fetch('http://localhost:8080/equipments');
-            const data = await res.json();
-            this.equipments = data;
-            this.filtered = data;
-            this.currentPage = 0;
+            try {
+                const res = await axios.get('/equipments') 
+                this.equipments = res.data
+                this.filtered = res.data
+                this.currentPage = 0
+            } catch (err) {
+                console.error('설비 목록 로딩 실패:', err)
+            }
         },
         filterEquipments() {
             const keyword = this.searchKeyword.trim().toLowerCase();

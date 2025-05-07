@@ -20,7 +20,7 @@ import {
     CategoryScale,
     LinearScale
 } from 'chart.js'
-
+import axios from 'axios'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 // 상태
@@ -61,8 +61,8 @@ const chartOptions = {
 // 마운트 시 데이터 로딩
 onMounted(async () => {
     try {
-        const response = await fetch('/api/dashboard/work-order-count')
-        const data = await response.json()
+        const response = await axios.get('/api/dashboard/work-order-count')
+        const data = response.data  
 
         const labels = data.map(item => item.productName)
         const values = data.map(item => item.orderCount)

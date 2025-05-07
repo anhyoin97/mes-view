@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'ProductionResultForm',
     props: {
@@ -61,16 +63,12 @@ export default {
     methods: {
         async submitForm() {
             try {
-                await fetch('http://localhost:8080/results', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(this.form)
-                });
-                alert('실적이 등록되었습니다!');
-                this.$emit('created');
-                this.resetForm();
+                await axios.post('/results', this.form)
+                alert('실적이 등록되었습니다!')
+                this.$emit('created')
+                this.resetForm()
             } catch (err) {
-                alert('에러: ' + err.message);
+                alert('에러: ' + err.message)
             }
         },
         resetForm() {
@@ -84,7 +82,7 @@ export default {
             };
         }
     }
-};
+}
 </script>
 
 <style scoped>

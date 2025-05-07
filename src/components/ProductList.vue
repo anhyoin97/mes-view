@@ -24,7 +24,7 @@
 <script>
 import ProductTable from './ProductTable.vue';
 import ProductForm from './ProductForm.vue';
-
+import axios from 'axios'
 export default {
   name: 'ProductList',
   components: { ProductTable, ProductForm },
@@ -48,11 +48,14 @@ export default {
   },
   methods: {
     async fetchProducts() {
-      const res = await fetch('http://localhost:8080/products');
-      const data = await res.json();
-      this.products = data;
-      this.filtered = data;
-      this.currentPage = 0;
+      try {
+        const res = await axios.get('http://localhost:8080/products');
+        this.products = res.data;
+        this.filtered = res.data;
+        this.currentPage = 0;
+      } catch (err) {
+        console.error("제품 목록 로딩 오류:", err);
+      }
     },
     filterProducts() {
       const keyword = this.searchKeyword.trim().toLowerCase();

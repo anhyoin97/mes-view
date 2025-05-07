@@ -1,4 +1,3 @@
-<!-- 설비 가동률 -->
 <template>
     <div class="chart-card">
         <h2 class="chart-title">설비 상태 비율</h2>
@@ -12,6 +11,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Doughnut } from 'vue-chartjs'
+import axios from 'axios'
 import {
     Chart as ChartJS,
     Title,
@@ -22,7 +22,6 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
-// 상태 변수
 const chartData = ref({
     labels: [],
     datasets: [],
@@ -41,8 +40,8 @@ const loaded = ref(false)
 
 onMounted(async () => {
     try {
-        const response = await fetch('/api/dashboard/equipment-status')
-        const data = await response.json()
+        const res = await axios.get('/api/dashboard/equipment-status') 
+        const data = res.data
 
         const labels = Object.keys(data)
         const values = Object.values(data)

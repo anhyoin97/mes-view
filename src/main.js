@@ -1,13 +1,25 @@
-// src/main.js
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import './assets/common.css'; // ✅ 이 한 줄만 추가하면 끝!
+import './assets/common.css' 
 
-const app = createApp(App);
-app.mount('#app');
+import axios from 'axios'
 
+// Axios 전역 기본 설정
+axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-createApp(App)
-    .use(router)
-    .mount('#app')
+// Axios 요청 인터셉터: 토큰 자동 주입
+axios.interceptors.request.use(config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+}, error => {
+    return Promise.reject(error)
+})
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
