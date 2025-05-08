@@ -4,13 +4,15 @@
         <form @submit.prevent="handleLogin">
             <input v-model="email" type="email" placeholder="이메일" required />
             <input v-model="password" type="password" placeholder="비밀번호" required />
-            <button type="submit" class="btn">로그인</button>
+            <button @click="login" type="submit" class="btn">로그인</button>
             <p v-if="error" class="error">{{ error }}</p>
         </form>
     </div>
 </template>
 
 <script>
+import { useUserStore } from '@/stores/user';
+
 export default {
     data() {
         return {
@@ -31,7 +33,9 @@ export default {
                 if (!res.ok) throw new Error('로그인 실패');
                 
                 const token = await res.text(); 
-                localStorage.setItem('token', token);
+                const userStore = useUserStore();
+                userStore.setToken(token); // Pinia store token 저장
+                
                 this.$router.push('/maindashboard');
             } catch (err) {
                 this.error = '이메일 또는 비밀번호가 올바르지 않습니다.';

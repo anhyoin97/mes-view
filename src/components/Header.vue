@@ -2,7 +2,6 @@
     <header class="header">
         <div class="logo">MES System</div>
 
-        <!-- 로그인 상태일 때만 메뉴와 로그아웃 버튼 노출 -->
         <div v-if="isLoggedIn" class="right-section">
             <nav class="nav">
                 <router-link to="/maindashboard">대시보드</router-link>
@@ -13,24 +12,36 @@
             </nav>
             <button class="logout-btn" @click="logout">로그아웃</button>
         </div>
+
+        <router-link v-else to="/login">로그인</router-link>
     </header>
 </template>
 
 <script>
+import { useUserStore } from '@/stores/user';
+
 export default {
     name: 'MainHeader',
+    setup() {
+        const userStore = useUserStore();
+
+        const logout = () => {
+            userStore.clearToken();
+            // 상태가 바뀌면서 UI 자동 반영
+            window.location.href = '/login';
+        };
+
+        return {
+            userStore,
+            logout
+        };
+    },
     computed: {
         isLoggedIn() {
-            return !!localStorage.getItem('token');
-        }
-    },
-    methods: {
-        logout() {
-            localStorage.removeItem('token');
-            this.$router.push('/login');
+            return !!this.userStore.token;
         }
     }
-}
+};
 </script>
 
 <style scoped>

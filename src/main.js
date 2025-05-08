@@ -4,6 +4,7 @@ import router from './router'
 import './assets/common.css' 
 
 import axios from 'axios'
+import { createPinia } from 'pinia';
 
 // Axios 전역 기본 설정
 axios.defaults.baseURL = 'http://localhost:8080'
@@ -21,5 +22,6 @@ axios.interceptors.request.use(config => {
 })
 
 const app = createApp(App)
-app.use(router)
+app.use(router) // 페이지 전환
+app.use(createPinia()) //상태 관리
 app.mount('#app')

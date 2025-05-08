@@ -1,21 +1,16 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-800">
-    <MainHeader />
-    <main class="max-w-6xl mx-auto px-4 py-8">
-      <router-view />
-    </main>
-  </div>
+  <MainHeader />
+  <router-view />
 </template>
 
 <script>
-import MainHeader from './components/Header.vue'
+import MainHeader from './components/Header.vue';
 
 export default {
-  name: 'App',
   components: {
     MainHeader
   }
-}
+};
 </script>
 
 <style>
